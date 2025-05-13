@@ -21,8 +21,8 @@ class BottomNavi extends StatelessWidget {
       items: [
         _buildNavItem('assets/navigation/home.svg', 0),
         _buildNavItem('assets/navigation/month.svg', 1),
-        _buildNavItem('assets/navigation/chat.svg', 2),
-        _buildNavItem('assets/navigation/challenge.svg', 3),
+        _buildNavItem('assets/navigation/menu - challenge.svg', 2),
+        _buildNavItem('assets/navigation/chat.svg', 3),
         _buildNavItem('assets/navigation/profile.svg', 4),
       ],
     );

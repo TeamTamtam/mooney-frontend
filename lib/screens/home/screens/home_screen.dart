@@ -39,6 +39,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     super.initState();
     _fetchNickname(); // ✅ 닉네임 가져오기
     _fetchHomeData();
+
+    // ✅ 홈에 진입할 때 캐릭터 다시 불러오기
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(characterProvider.notifier).fetchCharacter();
+    });
   }
 
   /// ✅ 닉네임 API 호출
@@ -55,19 +60,38 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
       setState(() {
 
+        // _weeklyMissions = (data["weeklyMissions"] as List<dynamic>? ?? [])
+        //     .whereType<Map<String, dynamic>>() // 올바른 타입만 필터링
+        //     .map((mission) => {
+        //   "title": mission["title"] ?? "미션 제목 없음",
+        //   "status": mission["status"]?.toString() ?? "2"
+        // })
+        //     .toList();
         _weeklyMissions = (data["weeklyMissions"] as List<dynamic>? ?? [])
-            .whereType<Map<String, dynamic>>() // 올바른 타입만 필터링
-            .map((mission) => {
-          "title": mission["title"] ?? "미션 제목 없음",
-          "status": mission["status"]?.toString() ?? "2"
-        })
-            .toList();
+            .whereType<Map<String, dynamic>>()
+            .map((mission) {
+          final result = (mission["result"] ?? 0).toDouble();
+
+          String status;
+          if (result >= 0 && result < 2.5) {
+            status = "1";
+          } else if (result >= 2.5 && result < 4.0) {
+            status = "2";
+          } else {
+            status = "3";
+          }
+
+          return {
+            "title": mission["title"] ?? "미션 제목 없음",
+            "status": status,
+          };
+        }).toList();
 
         _todayExpenseAmount = data["todayExpenseAmount"] ?? 0;
 
         _recentExpenses = (data["recentExpenses"] as List)
             .map((item) => Expenditure(
-          title: item["expenseCategory"] ?? "기타",
+          title: item["payee"] ?? "기타",
           amount: item["amount"].toString(),
           dateTime: DateTime.parse(item["transactionTime"]),
           transactionSource: item["transactionSource"] ?? "알 수 없음",

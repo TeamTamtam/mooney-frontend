@@ -28,7 +28,7 @@ class MissionListWidget extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.only(bottom: 18),
-            child: Text('이번주 미션', style: AppFonts.title2_sb),
+            child: Text('이번주 챌린지', style: AppFonts.title2_sb),
           ),
           ListView.builder(
             shrinkWrap: true,

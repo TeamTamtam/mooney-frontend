@@ -9,6 +9,8 @@ import 'package:mooney2/screens/first_budget/screens/splash_first_screen.dart';
 import 'package:mooney2/screens/first_budget/screens/splash_second_screen.dart';
 import 'package:mooney2/screens/first_budget/screens/fixed_budget_setup_screen.dart';
 import 'package:mooney2/screens/month/screens/budget_edit_screen.dart';
+import 'package:mooney2/screens/mission/screens/new_mission_screen.dart';
+import 'package:mooney2/screens/splash_screen.dart';
 
 
 class AppRoutes {
@@ -22,6 +24,8 @@ class AppRoutes {
   static const String firstBudgetSplash2 = '/firstBudgetSplash2';
   static const String fixedBudget = '/fixedBudget';
   static const String budgetEdit = '/budgetEdit';
+  static const String newMission = '/newMission';
+  static const String splash = '/splash';
 
 
 
@@ -47,6 +51,10 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => FixedBudgetSetupScreen());
       case budgetEdit:
         return MaterialPageRoute(builder: (_) => BudgetEditScreen());
+      case newMission:
+        return MaterialPageRoute(builder: (_) => NewChallengeScreen());
+      case splash:
+        return MaterialPageRoute(builder: (_) => SplashScreen());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

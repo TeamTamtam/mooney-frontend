@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import '../main.dart';
+import 'package:mooney2/config/routes.dart';
 
 class ApiClient {
   final Dio dio = Dio(
@@ -9,14 +11,27 @@ class ApiClient {
 
   ApiClient() {
     dio.interceptors.add(InterceptorsWrapper(
-      onRequest: (options, handler) async {
-        // ✅ 모든 요청에 AccessToken 자동 추가
-        final accessToken = await _secureStorage.read(key: 'accessToken');
-        if (accessToken != null) {
-          options.headers['Authorization'] = 'Bearer $accessToken';
-        }
-        return handler.next(options);
-      },
+        onRequest: (options, handler) async {
+          try {
+            final accessToken = await _secureStorage.read(key: 'accessToken');
+            if (accessToken != null) {
+              options.headers['Authorization'] = 'Bearer $accessToken';
+            }
+          } catch (e) {
+            print("❗ accessToken 복호화 중 오류 발생: $e");
+            await _secureStorage.deleteAll();
+
+            // 🔥 로그인 화면으로 이동
+            navigatorKey.currentState?.pushNamedAndRemoveUntil(
+              AppRoutes.login,
+                  (route) => false,
+            );
+
+            return; // ❗ handler 호출 없이 return해야 이후 처리 안 됨
+          }
+
+          return handler.next(options);
+        },
       onError: (DioException e, handler) async {
         if (e.response?.statusCode == 403) { // 🔥 AccessToken 만료
           print("🔄 AccessToken 만료됨. RefreshToken으로 갱신 시도...");

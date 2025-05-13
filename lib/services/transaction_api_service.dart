@@ -30,6 +30,7 @@ class TransactionApiService {
       );
 
       if (response.statusCode == 200) {
+
         print("✅ 지출 API 전송 성공: ${response.data}");
       } else {
         print("❌ 지출 API 전송 실패: ${response.statusCode} ${response.data}");

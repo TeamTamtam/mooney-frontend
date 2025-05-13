@@ -114,4 +114,12 @@ extension ExpenseCategoryExtension on ExpenseCategory {
       orElse: () => ExpenseCategory.OTHER, // 매칭되는 값이 없을 경우 기본값
     );
   }
+
+  /// **✅ 한글 카테고리명을 API ENUM 문자열로 변환하는 함수**
+  static String toEnum(String label) {
+    return ExpenseCategory.values.firstWhere(
+          (e) => e.label == label,
+      orElse: () => ExpenseCategory.OTHER,
+    ).name; // Enum의 name을 반환 (FOOD, CAFE_SNACKS 등)
+  }
 }

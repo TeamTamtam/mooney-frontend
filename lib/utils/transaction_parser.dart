@@ -53,12 +53,11 @@ class TransactionParser {
       DateTime parsedDate = DateFormat("MM/dd HH:mm").parse("$datePart $timePart");
       DateTime transactionDateTime = DateTime(currentYear, parsedDate.month, parsedDate.day, parsedDate.hour, parsedDate.minute);
 
-      // 🔥 UTC로 변환 후 ISO 8601 포맷 적용
-      transactionTime = transactionDateTime.toUtc().toIso8601String();
+      // ✅ 한국 시간으로 그대로 유지된 상태에서 ISO 8601 포맷 적용 (Z 없음)
+      transactionTime = transactionDateTime.toIso8601String();
     } else {
       transactionTime = "2025-03-01T09:02:26.077Z"; // 기본값
     }
-
 
     // transactionSource 추출 (체크 or 신용 포함, 없으면 입금/출금 포함)
     final sourceRegExp = RegExp(r'(\S*체크|\S*신용|\S*입금|\S*출금)');

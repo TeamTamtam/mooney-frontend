@@ -1,8 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:mooney2/constants/app_fonts.dart';
+import 'package:android_intent_plus/android_intent.dart';
+import 'package:mooney2/constants/colors.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
+
+
+  void openNotificationAccessSettings() {
+    const AndroidIntent intent = AndroidIntent(
+      action: 'android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS',
+    );
+    intent.launch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +41,33 @@ class SplashScreen extends StatelessWidget {
           Column(
             children: [
               ElevatedButton(
+                // onPressed: () {
+                //   Navigator.pushNamed(context, '/newMission');
+                // },
+                // style: ElevatedButton.styleFrom(
+                //   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                // ),
+                onPressed: openNotificationAccessSettings,
+                child: const Text('알림 접근 허용',style: TextStyle(color: AppColors.primaryPurple),),
+              ),
+              const SizedBox(height: 5),
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Navigator.pushNamed(context, '/firstBudgetSplash');
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //     padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+              //   ),
+              //   child: const Text('첫달예산'),
+              // ),
+              ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/firstBudgetSplash');
+                  Navigator.pushNamed(context, '/newMission');
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 ),
-                child: const Text('첫달예산'),
+                child: const Text('이번 주 챌린지',style: TextStyle(color: AppColors.primaryPurple),),
               ),
               const SizedBox(height: 5),
               ElevatedButton(
@@ -47,7 +77,8 @@ class SplashScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 ),
-                child: const Text('로그인'),
+                //덮밥은 만원 초밥은 5만원인데 초밥먹어도딜까
+                child: const Text('로그인',style: TextStyle(color: AppColors.primaryPurple),),
               ),
               const SizedBox(height: 5),
               ElevatedButton(
@@ -57,7 +88,7 @@ class SplashScreen extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 ),
-                child: const Text('홈'),
+                child: const Text('홈',style: TextStyle(color: AppColors.primaryPurple),),
               ),
               const SizedBox(height: 20), // 버튼 아래 여백
               Image.asset(

@@ -3,23 +3,41 @@ import 'package:mooney2/constants/app_fonts.dart';
 import 'package:mooney2/constants/colors.dart';
 
 class DaySelectorWidget extends StatelessWidget {
-  final int selectedDayIndex;
   final Function(int) onDaySelected;
 
   const DaySelectorWidget({
     super.key,
-    required this.selectedDayIndex,
     required this.onDaySelected,
   });
+
+  int getTodayWeekIndex() => DateTime.now().weekday - 1;
 
   @override
   Widget build(BuildContext context) {
     final days = ['월', '화', '수', '목', '금', '토', '일'];
+    final todayIndex = getTodayWeekIndex();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(days.length, (index) {
-        bool selected = index == selectedDayIndex;
+        bool isPast = index < todayIndex;
+        bool isToday = index == todayIndex;
+        bool isFuture = index > todayIndex;
+
+        Color bgColor = Colors.transparent;
+        BoxBorder? border;
+        Color textColor = AppColors.grey200;
+
+        if (isToday) {
+          bgColor = AppColors.skyBlue;
+          border = Border.all(color: AppColors.secondaryBlue, width: 2);
+          textColor = AppColors.secondaryBlue;
+        } else if (isPast) {
+          bgColor = AppColors.skyBlue;
+          border = null;
+          textColor = AppColors.secondaryBlue;
+        }
+
         return GestureDetector(
           onTap: () => onDaySelected(index),
           child: Container(
@@ -27,15 +45,13 @@ class DaySelectorWidget extends StatelessWidget {
             width: 36,
             height: 36,
             decoration: BoxDecoration(
-              color: selected ? AppColors.skyBlue : Colors.transparent,
+              color: bgColor,
               shape: BoxShape.circle,
-              border: selected ? Border.all(color: AppColors.secondaryBlue, width: 2) : null,
+              border: border,
             ),
             child: Text(
               days[index],
-              style: AppFonts.body2Rg.copyWith(
-                color: selected ? AppColors.secondaryBlue : AppColors.grey200,
-              ),
+              style: AppFonts.body2Rg.copyWith(color: textColor),
             ),
           ),
         );

@@ -20,9 +20,9 @@ class _RootScreenState extends State<RootScreen> {
   final List<Widget> _pages = [
     HomeScreen(),
     MonthScreen(),
-    ChatbotStack(),
     MissionScreen(),
-    ProfileScreen(), //프로필에 해당하는 스크린으로 교체예정
+    ChatbotStack(),
+    ProfileScreen(),
 
   ];
 

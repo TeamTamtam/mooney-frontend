@@ -7,7 +7,7 @@ import 'package:mooney2/utils/transaction_parser.dart';
 import 'package:mooney2/services/transaction_api_service.dart';
 
 class NotificationPlugin {
-  // 네이티브(NotificationService)와 통신할 채널 이름 (임의로 정함)
+  // 네이티브(NotificationService)와 통신할 채널 이름
   static const MethodChannel _channel = MethodChannel('notification_channel');
 
   static final List<String> _transactionKeywords = [
@@ -17,11 +17,25 @@ class NotificationPlugin {
 
   static bool _isListening = false;
 
-  static void startListening() async {
-    if (_isListening) return;
-    _isListening = true;
+  static Future<void> startListening() async {
 
+    print("🔔 NotificationPlugin 리스너 초기화 시작");
     final bool loggedIn = await authService.isLoggedIn();
+    if (_isListening) {
+      // 🔁 이미 리스닝 중이더라도 로그인 상태면 보류 알림 다시 전송 시도
+      if (loggedIn) {
+        print("🔄 로그인 후 보류 알림 재전송");
+        List<TransactionNotification> pendingTransactions =
+        await PendingTransactionService.getPendingTransactions();
+        for (var transaction in pendingTransactions) {
+          await _sendTransactionToApi(transaction);
+        }
+        await PendingTransactionService.clearPendingTransactions();
+      }
+      return;
+    }
+
+    _isListening = true;
 
     // 🔥 로그인 후 보류된 알림 전송
     if (loggedIn) {
@@ -55,12 +69,28 @@ class NotificationPlugin {
 
           print("✅ 결제 알림 도착: $transaction");
 
-          if (loggedIn) {
-            await _sendTransactionToApi(transaction);
+
+          print("🔍 getaccess token 확인 중...");
+          final hasToken = await authService.getAccessToken();
+          print("✅ access token 확인 결과: $hasToken");
+
+          if (hasToken != null) {
+            try {
+              print("api 전송 시도");
+              await _sendTransactionToApi(transaction);
+            } catch (e) {
+              print("❌ 전송 실패. 아마도 토큰 만료? ${e.toString()}");
+
+              // 보류 처리도 가능
+              await PendingTransactionService.savePendingTransaction(transaction);
+
+              // refreshToken 만료로 로그아웃 된 상태라면, 여기서 재전송 시도 안 함
+            }
           } else {
             print("🚀 로그인 전이므로 보류된 결제 알림 저장");
             await PendingTransactionService.savePendingTransaction(transaction);
           }
+
         }
       }
     });

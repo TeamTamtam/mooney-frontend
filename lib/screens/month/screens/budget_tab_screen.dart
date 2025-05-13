@@ -44,7 +44,7 @@ class _BudgetTabState extends State<BudgetTab> {
 
     int remainingDays = DateTime(_selectedMonth.year, _selectedMonth.month + 1, 0).day - DateTime.now().day + 1;
     double dailyBudget = _budgetData!["dailyBudgetAmount"].toDouble();
-    double progress = (_budgetData!["remainingBudgetAmount"] / (_budgetData!["monthlyBudgetAmount"] ?? 1)).clamp(0.0, 1.0);
+    double progress = _budgetData!["budgetUsagePercentage"];
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

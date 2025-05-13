@@ -16,16 +16,12 @@ class BudgetEditScreen extends StatefulWidget {
 class _BudgetEditScreenState extends State<BudgetEditScreen> {
   late TextEditingController _totalBudgetController;
   int? _totalBudget;
-  int _totalFixedExpense = 500000;
+  int _totalFixedExpense = 0;
   late Map<String, TextEditingController> _categoryControllers;
   bool _isLoading = true;
   late DateTime selectedMonth;
 
-  List<Map<String, dynamic>> fixedExpenses = [
-    {'type': '고정 지출', 'name': '월세', 'amount': 300000},
-    {'type': '고정 지출', 'name': 'OTT', 'amount': 50000},
-    {'type': '고정 저축', 'name': '적금', 'amount': 50000},
-  ];
+  List<Map<String, dynamic>> fixedExpenses = [];
 
   List<Map<String, dynamic>> categories = [];
 
@@ -53,6 +49,10 @@ class _BudgetEditScreenState extends State<BudgetEditScreen> {
         _totalBudget = budgetData['monthlyBudget'];
         _totalBudgetController.text = NumberFormat('#,###').format(_totalBudget!);
         categories = budgetData['categories'];
+        fixedExpenses = budgetData['fixedExpenses'];
+
+        // 총 고정 지출 계산
+        _totalFixedExpense = fixedExpenses.fold(0, (sum, item) => sum + (item['amount'] as int));
 
         // 각 카테고리의 예산을 컨트롤러에 설정
         _categoryControllers = {
@@ -87,18 +87,34 @@ class _BudgetEditScreenState extends State<BudgetEditScreen> {
     });
   }
 
-  void _onSubmit() {
-    // 총 예산과 카테고리별 예산을 포함한 데이터 전송 준비
-    Map<String, dynamic> budgetData = {
-      'totalBudget': _totalBudget,
-      'categories': categories.map((c) => {
-        'category': c['category'],
-        'budget': int.tryParse(_categoryControllers[c['category']]!.text.replaceAll(',', '')) ?? 0,
-      }).toList(),
-    };
+  void _onSubmit() async {
+    int year = selectedMonth.year;
+    int month = selectedMonth.month;
 
-    print("전송할 데이터: $budgetData");
+    List<Map<String, dynamic>> formattedCategories = categories.map((c) {
+      return {
+        "category": c['category'], // 한글 그대로 전달
+        "budget": int.tryParse(_categoryControllers[c['category']]!.text.replaceAll(',', '')) ?? 0,
+      };
+    }).toList();
+
+    try {
+      await budgetService.updateBudgetPlan(
+        year: year,
+        month: month,
+        totalBudget: _totalBudget ?? 0,
+        categories: formattedCategories, // ✅ 변환은 서비스에서 진행
+      );
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("예산이 성공적으로 수정되었습니다!")),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("예산 수정 실패: $e")),
+      );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {

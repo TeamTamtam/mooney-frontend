@@ -23,6 +23,7 @@ class BudgetService {
           'monthlyBudgetAmount': data['monthlyBudgetAmount'] ?? 0,
           'pendingExpenseAmount': data['pendingExpenseAmount'] ?? 0,
           'totalExpenseAmount': data['totalExpenseAmount'] ?? 0,
+          'budgetUsagePercentage': (data['budgetUsagePercentage'] ?? 0) / 100, // ✅ 퍼센트를 0~1 범위로 변환
           'categoryBudgets': (data['categoryBudgets'] as List?)?.map((category) {
             return {
               'expenseCategory': ExpenseCategoryExtension.fromString(category['expenseCategory']).label,

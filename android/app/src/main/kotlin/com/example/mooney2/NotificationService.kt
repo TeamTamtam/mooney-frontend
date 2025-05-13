@@ -49,6 +49,7 @@ class NotificationService : NotificationListenerService() {
     // 새로운 알림이 도착할 때 호출됨
     override fun onNotificationPosted(sbn: StatusBarNotification?) {
         sbn?.let {
+            Log.d("NotificationService", "📬 알림 수신됨: ${it.packageName}")
             sendNotificationToFlutter(it)
         }
     }

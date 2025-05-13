@@ -48,7 +48,7 @@ class TransactionService {
         for (var income in data["incomes"]) {
           transactions.add(
             Expenditure(
-              title: income["note"] ?? "수입",
+              title: income["payer"] ?? "수입",
               amount: "+${income["amount"]}",
               dateTime: DateTime.parse(income["transactionTime"]),
               category: "FINANCE", // 수입은 금융 카테고리로 설정
@@ -61,7 +61,7 @@ class TransactionService {
         for (var expense in data["expenses"]) {
           transactions.add(
             Expenditure(
-              title: expense["note"] ?? "지출",
+              title: expense["payee"] ?? "지출",
               amount: "${expense["amount"]}",
               dateTime: DateTime.parse(expense["transactionTime"]),
               category: expense["expenseCategory"],

@@ -1,109 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mooney2/constants/colors.dart';
 import 'package:mooney2/constants/app_fonts.dart';
+import 'package:mooney2/services/notification_plugin.dart';
 import 'package:mooney2/services/auth_service.dart';
-//
-// class LoginScreen extends StatelessWidget {
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: AppBar(
-//         backgroundColor: Colors.white,
-//         elevation: 0,
-//         centerTitle: true,
-//         title: Text(
-//           '로그인',
-//           style: AppFonts.title1_sb,
-//           ),
-//         ),
-//       body: Padding(
-//         padding: const EdgeInsets.all(16.0),
-//         child: Column(
-//           crossAxisAlignment: CrossAxisAlignment.stretch,
-//           children: [
-//             SizedBox(height: 30),
-//             // 아이디 입력 필드
-//             TextField(
-//               keyboardType: TextInputType.text,
-//               enableSuggestions: false,
-//               autocorrect: false,
-//               decoration: InputDecoration(
-//                 hintText: '아이디',
-//                 filled: true,
-//                 fillColor: Colors.grey[200],
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(18),
-//                   borderSide: BorderSide.none,
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(height: 16),
-//             // 비밀번호 입력 필드
-//             TextField(
-//               obscureText: true,
-//               keyboardType: TextInputType.visiblePassword,
-//               decoration: InputDecoration(
-//                 hintText: '비밀번호',
-//                 filled: true,
-//                 fillColor: Colors.grey[200],
-//                 border: OutlineInputBorder(
-//                   borderRadius: BorderRadius.circular(18),
-//                   borderSide: BorderSide.none,
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(height: 24),
-//             ElevatedButton(
-//               onPressed: () {
-//                 // 로그인 로직 추가
-//               },
-//               style: ElevatedButton.styleFrom(
-//                 backgroundColor: AppColors.primaryPurple,
-//                 padding: const EdgeInsets.symmetric(vertical: 12),
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(18),
-//                 ),
-//               ),
-//               child: Text(
-//                 '로그인',
-//                 style: AppFonts.title2_sb.copyWith(color: Colors.white),
-//               ),
-//             ),
-//         // 회원가입 텍스트
-//         Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             const Text(
-//               '아직 계정이 없으신가요?',
-//               style: TextStyle(
-//                 fontSize: 14,
-//                 color: Colors.black,
-//               ),
-//             ),
-//             TextButton(
-//               onPressed: () {
-//                 // 회원가입 페이지로 이동
-//                 Navigator.pushNamed(context, '/signupConsent');
-//               },
-//               child: const Text(
-//                 '회원가입',
-//                 style: TextStyle(
-//                   fontSize: 14,
-//                   color: AppColors.primaryPurple,
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ),
-//             ],)
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -128,7 +27,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       if (success) {
         print("✅ 로그인 성공, 홈 화면으로 이동!");
-        Navigator.pushReplacementNamed(context, '/home'); // ✅ 홈 화면으로 이동
+        await NotificationPlugin.startListening(); // ✅ 비동기 대기
+        Navigator.pushReplacementNamed(context, '/root'); // ✅ 홈 화면으로 이동
       }
     } catch (e) {
       print("❌ 로그인 실패: $e");

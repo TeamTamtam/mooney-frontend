@@ -14,7 +14,7 @@ class MissionCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blue.shade50,
+        color: Color(0xFFEBF6FF),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(

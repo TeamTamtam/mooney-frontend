@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mooney2/constants/colors.dart';
+import 'package:mooney2/providers/character_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ChatbotScreen extends StatelessWidget {
+
+class ChatbotScreen extends ConsumerWidget {
   final TextEditingController _controller = TextEditingController();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final characterState = ref.watch(characterProvider); // ✅ 캐릭터 상태 구독
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          '알뜰챗봇',
+          '똑똑소비봇',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
@@ -38,10 +43,26 @@ class ChatbotScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/question.png',
+                  const SizedBox(height: 23),
+                  characterState.when(
+                    data: (character) => character != null
+                        ? Image.asset(
+                        character.imgPath,
+                        width: 66, // ✅ 이미지 가로 크기 지정
+                        height: 63, // ✅ 이미지 세로 크기 지정
+                        fit: BoxFit.contain,)
+                        : Image.asset(
+                        'assets/question.png',
+                        width: 66, // ✅ 이미지 가로 크기 지정
+                        height: 63, // ✅ 이미지 세로 크기 지정
+                        fit: BoxFit.contain,),
+                    loading: () => CircularProgressIndicator(),
+                    error: (e, _) => Image.asset(
+                      'assets/question.png',
+                      width: 66, // ✅ 이미지 가로 크기 지정
+                      height: 63, // ✅ 이미지 세로 크기 지정
+                      fit: BoxFit.contain,),
                   ),
-                  const SizedBox(height: 10),
                   RichText(
                     textAlign: TextAlign.center,
                     text: const TextSpan(
