@@ -40,11 +40,11 @@
 
 ---
 
-### 1️⃣ 프로젝트 설치
+## 1️⃣ 프로젝트 설치 방법
 
 
 
-### 1. 레포지토리 클론
+#### 1. 레포지토리 클론
 먼저 아래 작업은 **Android Studio를 열기 전에**, **윈도우 명령 프롬프트(cmd)** 또는 **터미널(터미널 앱)**에서 진행합니다.
 ```bash
 git clone https://github.com/TeamTamtam/mooney-frontend.git # 프로젝트 코드를 내 컴퓨터에 복사(clone)합니다.
@@ -55,7 +55,7 @@ cd mooney-frontend                                            # 복사된 프로
 
 <br>
 
-### 2. Android Studio로 프로젝트 열기
+#### 2. Android Studio로 프로젝트 열기
 
 1. Android Studio를 실행합니다.  
 2. 첫 화면 또는 상단 메뉴에서 `File > Open`을 클릭합니다.  
@@ -65,7 +65,7 @@ cd mooney-frontend                                            # 복사된 프로
 <br>
 
 
-### 3. 패키지 설치
+#### 3. 패키지 설치
 
 Android Studio의 **하단 터미널(Terminal)** 창에 아래 명령어를 입력합니다:
 
@@ -78,7 +78,7 @@ flutter pub get  # 앱 실행에 필요한 외부 라이브러리(패키지)를 
 
 <br>
 
-### 4. 환경 변수 파일 생성
+#### 4. 환경 변수 파일 생성
 
 계속해서 Android Studio 하단의 **Terminal**에서 아래 명령어를 입력합니다:
 
