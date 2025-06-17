@@ -19,7 +19,7 @@
 | flutter_svg | ^1.0.0 | SVG 이미지 렌더링 지원 | [pub.dev/flutter_svg](https://pub.dev/packages/flutter_svg) |
 | table_calendar | ^3.0.8 | 커스터마이징 가능한 캘린더 위젯 | [pub.dev/table_calendar](https://pub.dev/packages/table_calendar) |
 | fl_chart | ^0.65.0 | 다양한 차트 UI (막대, 선, 원형 등) 지원 | [pub.dev/fl_chart](https://pub.dev/packages/fl_chart) |
-| dio | ^5.7.0 | 강력한 HTTP 클라이언트 (API 요청용) | [pub.dev/dio](https://pub.dev/packages/dio) |
+| dio | ^5.7.0 | HTTP 클라이언트 (API 요청용) | [pub.dev/dio](https://pub.dev/packages/dio) |
 | flutter_secure_storage | ^9.2.2 | 암호화된 안전한 로컬 스토리지 (토큰 저장 등) | [pub.dev/flutter_secure_storage](https://pub.dev/packages/flutter_secure_storage) |
 | shared_preferences | ^2.5.0 | Key-Value 로컬 저장소 | [pub.dev/shared_preferences](https://pub.dev/packages/shared_preferences) |
 | flutter_riverpod | ^2.6.1 | 상태 관리 라이브러리 (Provider 기반) | [pub.dev/flutter_riverpod](https://pub.dev/packages/flutter_riverpod) |
