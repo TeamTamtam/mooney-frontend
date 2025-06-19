@@ -1,4 +1,4 @@
-# Mooney Frontend
+# mooney-frontend
 
 **Mooney 프로젝트의 프론트엔드 리포지토리입니다.**
 본 앱은 Flutter 프레임워크를 기반으로 개발되었으며, Android 디바이스에서 실행되는 **개인 맞춤형 절약 가계부 앱**입니다. 사용자 경험(UX)을 고려한 UI 구성과 소비 데이터 시각화를 통해 Mooney의 핵심 기능을 직관적으로 제공합니다.
